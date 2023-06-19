@@ -1,0 +1,13 @@
+{
+  "name": "media-manager",
+  "version": "1.0.0",
+  "description": "Media Manager is a web application that allows users to manage their media files.",
+  "main": "index.js",
+  "repository": "https://github.com/adityanithariya/media-manager.git",
+  "author": "adityanithariya",
+  "license": "MIT",
+  "dependencies": {
+    "cloudinary": "^1.37.2",
+    "express": "^4.18.2"
+  }
+}
