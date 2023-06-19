@@ -1,0 +1,52 @@
+.upload-main {
+    flex-direction: column;
+}
+
+.upload-main > div:first-child {
+    flex-direction: column;
+}
+
+.drag-box {
+    width: 85vw;
+    height: 40vh;
+    border-radius: 10px;
+    margin: 20px auto;
+    font-size: 20px;
+    box-shadow: 0 0 12px 0 #0000004f;
+}
+
+#upload {
+    display: none;
+}
+
+#drag-in {
+    display: none;
+}
+
+.drag-over #drag-in {
+    display: block;
+}
+
+.drag-over #normal {
+    display: none;
+}
+
+.upload-btn {
+    background-color: rgb(var(--primary-color));
+    color: white;
+    border-radius: 7px;
+    font-size: 20px;
+    padding: 10px 20px;
+    margin-top: 20px;
+}
+
+.upload-btn img {
+    margin-right: 7px;
+    margin-bottom: 2px;
+}
+
+@media (max-width: 500px) {
+    .upload-main > div:first-child {
+        display: none;
+    }
+}
