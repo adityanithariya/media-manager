@@ -1,24 +1,57 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "styles/DragUpload.css";
 import upload from "assets/upload.svg";
+import useDragUpload from "hooks/useDragUpload";
+import { useDispatch } from "react-redux";
+import { setFiles } from "store/uploadSlice";
+import getFileObj from "utils/getFileObj";
+import mediaExtensions from "utils/mediaExtensions";
+import { v4 as uuid } from "uuid";
 
 const DragUpload = () => {
     const fileRef = useRef();
     const dragBox = useRef();
+    const [files, dropHandler] = useDragUpload();
+    const dispatch = useDispatch();
 
-    const dropHandler = (e) => {};
+    const uploadHandler = (event) => {
+        const uploadedFiles = event.target.files;
+        if (uploadedFiles.length) {
+            for (const file of uploadedFiles) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    let obj = {};
+                    obj[uuid()] = getFileObj(file, reader.result);
+                    dispatch(setFiles({ ...files, ...obj }));
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        }
+    };
+
+    useEffect(() => {
+        console.log(files);
+    }, [files]);
 
     return (
         <main className="upload-main align-center">
             <div className="align-center">
                 <div
-                    onDrop={dropHandler}
-                    onDragOver={(e) => {}}
-                    onDragLeave={(e) => {
+                    onDrop={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         e.target.classList.remove("drag-over");
+                        dropHandler(e);
+                    }}
+                    onDragOver={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                     }}
                     onDragEnter={(e) => {
                         e.target.classList.add("drag-over");
+                    }}
+                    onDragLeave={(e) => {
+                        e.target.classList.remove("drag-over");
                     }}
                     ref={dragBox}
                     className="drag-box align-center"
@@ -26,11 +59,12 @@ const DragUpload = () => {
                     <div id="drag-in">Release to upload!</div>
                     <div id="normal">Drag & Drop Files Here!</div>
                     <input
+                        onChange={uploadHandler}
                         ref={fileRef}
                         type="file"
                         multiple
                         id="upload"
-                        accept=".jpg, .jpeg, .png, .gif, .svg, .mp4, .mp3"
+                        accept={mediaExtensions.join(", ")}
                     />
                 </div>
                 <div id="or">or</div>

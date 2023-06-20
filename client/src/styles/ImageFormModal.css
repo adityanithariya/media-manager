@@ -1,0 +1,80 @@
+.form-modal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    padding: 1.2rem;
+    box-shadow: 0 0 12px 0 #0000004f;
+}
+
+.form-modal::backdrop {
+    background-color: #ffffff20;
+    backdrop-filter: blur(2px);
+}
+
+.form-box {
+    flex-direction: column;
+}
+
+.inputWrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    margin: 15px 0;
+}
+
+.form-box .inputWrapper:first-child {
+    flex-direction: row;
+    gap: 10px;
+}
+
+.headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.headerContent > div:nth-child(2) {
+    font-size: 14px;
+}
+
+.inputWrapper label,
+.inputWrapper span {
+    margin-bottom: 5px;
+    font-size: 15px;
+    transition: all 200ms ease-in-out;
+}
+
+.inputWrapper label {
+    position: absolute;
+    left: 15px;
+    top: 7px;
+    background-color: white;
+}
+
+.inputWrapper:has(input:focus-visible) label,
+.inputWrapper:has(input:not(:placeholder-shown)) label,
+.inputWrapper:has(textarea:focus-visible) label,
+.inputWrapper:has(textarea:not(:placeholder-shown)) label {
+    font-size: 10px;
+    top: -7px;
+    color: rgb(var(--primary-color));
+}
+
+.inputWrapper input,
+.inputWrapper textarea {
+    width: 400px;
+    border: 1.5px solid gray;
+    border-radius: 5px;
+}
+.inputWrapper input:focus-visible,
+.inputWrapper textarea:focus-visible {
+    border-color: rgb(var(--primary-color));
+}

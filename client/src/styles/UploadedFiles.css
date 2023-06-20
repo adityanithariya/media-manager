@@ -1,0 +1,120 @@
+.uploaded-main {
+    margin: 20px auto;
+    width: 85vw;
+}
+
+.uploaded-main h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+}
+
+.uploadBox {
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px 30px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.uploadCard {
+    width: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 12px 0 #0000004f;
+    gap: 20px;
+}
+
+.uploadCard > div:first-child {
+    height: 100px;
+    width: 230px;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: rgba(var(--primary-color), 0.2);
+}
+
+.uploadContent {
+    width: 100%;
+    height: 50px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.uploadContent > div:first-child {
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.uploadContent > div:first-child > div:nth-child(2) {
+    font-size: 13px;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: rgba(128, 128, 128, 0.241);
+    --height: 20px;
+    height: var(--height);
+    border-radius: 10px;
+    --width: 0;
+}
+
+.progress-bar::before {
+    counter-reset: variable var(--width);
+    content: counter(variable)"%";
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    --padding-right: 7px;
+    --padding-btm: 2.2px;
+    padding-right: var(--padding-right);
+    padding-bottom: var(--padding-btm);
+    width: calc(var(--width) * 6.44px);
+    height: calc(var(--height) - var(--padding-btm));
+    border-radius: inherit;
+    background-color: #2080ff;
+    color: white;
+    text-align: right;
+    min-width: 25px;
+    transition: all 500ms ease-in;
+}
+
+@media (max-width: 600px) {
+    .uploaded-main {
+        width: 95vw;
+    }
+    .uploadBox {
+        padding: 10px 20px;
+    }
+    .uploadCard {
+        padding: 10px;
+        gap: 10px;
+    }
+    .uploadCard img {
+        width: 100px;
+    }
+    .uploadContent {
+        height: 46px;
+    }
+    .uploadContent > div:first-child > div:first-child {
+        width: 50vw;
+        font-size: 13px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .uploadContent > div:first-child > div:nth-child(2) {
+        display: none;
+    }
+    .progress-bar {
+        --height: 10px;
+    }
+    .progress-bar::before {
+        content: '';
+        min-width: 2px;
+    }
+}

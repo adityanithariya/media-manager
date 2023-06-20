@@ -29,3 +29,35 @@ button, a {
     text-decoration: none;
     cursor: pointer;
 }
+
+input, textarea {
+    border: none;
+    outline: none;
+    background-color: inherit;
+    padding: 9px 15px;
+    font-size: .9rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.dot {
+    --size: 5px;
+    cursor: pointer;
+    padding: var(10px);
+    position: relative;
+}
+
+.dot::before {
+    content: "";
+    display: block;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background-color: gray;
+    transition: all 100ms ease;
+}
+
+.dot:hover {
+    --size: 7px;
+}
