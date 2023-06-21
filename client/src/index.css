@@ -43,9 +43,19 @@ input, textarea {
 
 .dot {
     --size: 5px;
+    --max-size: 7px;
     cursor: pointer;
-    padding: var(10px);
+    padding: 5px 3px;
     position: relative;
+    width: var(--max-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dot.active::before {
+    background-color: rgb(var(--primary-color));
+    --size: var(--max-size);
 }
 
 .dot::before {
@@ -59,5 +69,5 @@ input, textarea {
 }
 
 .dot:hover {
-    --size: 7px;
+    --size: var(--max-size);
 }

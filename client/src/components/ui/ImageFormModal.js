@@ -1,53 +1,124 @@
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "styles/ImageFormModal.css";
 import ChevronLeft from "./ChevronLeft";
 import ChevronRight from "./ChevronRight";
 import Dot from "./Dot";
+import { setFiles } from "store/uploadSlice";
 
 const ImageFormModal = () => {
-    const dialogRef = useRef();
     const { files } = useSelector((state) => state.files);
     const [index, setIndex] = useState(0);
     const file = files[Object.keys(files)[index]];
-    useEffect(() => {
-        dialogRef.current.show();
-    }, []);
+    const dispatch = useDispatch();
+    const dialog = useRef();
     return (
-        <dialog ref={dialogRef} className="form-modal">
+        <dialog ref={dialog} className="form-modal">
             {Object.keys(files).length ? (
                 <div className="form-box align-center">
                     <div className="inputWrapper">
-                        <img
-                            src={`data:image;base64,${file.content}`}
-                            alt={file.name}
-                            width={180}
-                        />
+                        <div>
+                            <img
+                                src={file.content}
+                                alt={file.name}
+                                width={180}
+                            />
+                        </div>
                         <div className="align-center headerContent">
-                            <div>{file.originalName}</div>
-                            <div>{moment(file.uploadedAt).fromNow()}</div>
+                            <div className="file-name">{file.originalName}</div>
                         </div>
                     </div>
                     <div className="inputWrapper">
                         <label htmlFor="name">&nbsp;Name&nbsp;</label>
-                        <input placeholder=" " type="text" id="name" />
+                        <input
+                            placeholder=" "
+                            type="text"
+                            id="name"
+                            value={file.name}
+                            onChange={(e) => {
+                                let obj = {
+                                    ...files,
+                                };
+                                obj[Object.keys(files)[index]] = {
+                                    ...file,
+                                    name: e.target.value,
+                                };
+                                dispatch(setFiles(obj));
+                            }}
+                        />
                     </div>
                     <div className="inputWrapper">
                         <label htmlFor="desc">&nbsp;Description&nbsp;</label>
-                        <textarea placeholder=" " id="desc" />
+                        <textarea
+                            value={file.desc}
+                            onChange={(e) => {
+                                let obj = {
+                                    ...files,
+                                };
+                                obj[Object.keys(files)[index]] = {
+                                    ...file,
+                                    desc: e.target.value,
+                                };
+                                dispatch(setFiles(obj));
+                            }}
+                            placeholder=" "
+                            id="desc"
+                        />
                     </div>
                     <div className="modal-nav align-center">
-                        <ChevronLeft width={20} height={20} />
-                        <Dot />
-                        <ChevronRight width={20} height={20} />
+                        {Object.keys(files).length > 1 && (
+                            <>
+                                <ChevronLeft
+                                    width={18}
+                                    height={18}
+                                    onClick={() => {
+                                        if (index !== 0) setIndex(index - 1);
+                                    }}
+                                />
+                                {Object.keys(files).map((e, i) => (
+                                    <Dot
+                                        key={i}
+                                        index={i}
+                                        currentIndex={index}
+                                        id={e}
+                                        setIndex={setIndex}
+                                    />
+                                ))}
+                                <ChevronRight
+                                    width={18}
+                                    height={18}
+                                    onClick={() => {
+                                        if (
+                                            index <
+                                            Object.keys(files).length - 1
+                                        )
+                                            setIndex(index + 1);
+                                    }}
+                                />
+                            </>
+                        )}
                     </div>
+                    {index === Object.keys(files).length - 1 && (
+                        <button className="submit" onClick={() => {
+                            dialog.current.close();
+                        }}>Submit</button>
+                    )}
                 </div>
             ) : (
                 ""
             )}
         </dialog>
     );
+};
+
+export const open = () => {
+    const dialog = document.getElementsByClassName("form-modal")[0];
+    dialog.showModal();
+};
+
+export const close = () => {
+    const dialog = document.getElementsByClassName("form-modal")[0];
+    dialog.close();
 };
 
 export default ImageFormModal;

@@ -1,16 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { setFiles } from "store/uploadSlice";
 import getFileObj from "utils/getFileObj";
 import mediaExtensions from "utils/mediaExtensions";
+import readAsText from "utils/readFileAsText";
 import { v4 as uuid } from "uuid";
 
 const useDragUpload = () => {
     const { files } = useSelector((state) => state.files);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const dropHandler = (e) => {
+    const dropHandler = async (e) => {
         const droppedFiles = e.dataTransfer.files;
         if (droppedFiles.length && FileReader) {
+            let obj = {};
             for (const file of droppedFiles) {
                 if (
                     !mediaExtensions.includes(
@@ -18,14 +22,11 @@ const useDragUpload = () => {
                     )
                 )
                     continue;
-                const reader = new FileReader();
-                reader.onload = () => {
-                    let obj = {};
-                    obj[uuid()] = getFileObj(file, reader.result);
-                    dispatch(setFiles({ ...files, ...obj }));
-                };
-                reader.readAsArrayBuffer(file);
+                const data = await readAsText(file);
+                obj[uuid()] = getFileObj(file, data);
             }
+            dispatch(setFiles({ ...files, ...obj }));
+            navigate("/uploads?new");
         }
     };
     return [files, dropHandler];

@@ -1,0 +1,94 @@
+.image-modal {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    padding: 1.2rem;
+    box-shadow: 0 0 12px 0 #0000004f;
+}
+
+.image-modal::backdrop {
+    background-color: #ffffff20;
+    backdrop-filter: blur(2px);
+}
+
+.image-modal {
+    flex-direction: column;
+}
+
+.close-btn {
+    position: absolute;
+    top: 28px;
+    right: 30px;
+    padding: 0;
+    z-index: 1;
+    background-color: transparent;
+}
+
+.close-btn:hover {
+    background-color: #00000085;
+    box-shadow: 0 0 20px 4px #000000;
+}
+
+.modal-image-cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 700px;
+    max-height: 70vh;
+    position: relative;
+}
+
+.modal-image-cover > img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-views {
+    color: white;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 17px;
+    background-color: black;
+    box-shadow: 0 0 20px 7px black;
+    z-index: 1;
+}
+
+.modal-views img {
+    padding-right: 5px;
+    padding-top: 2px;
+}
+
+.image-modal .modal-nav {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 75%;
+}
+
+.image-modal .modal-nav svg {
+    stroke: white;
+    width: 30px;
+    height: 100%;
+    transition: all 100ms ease;
+}
+
+.image-modal .modal-nav svg:nth-child(1):hover {
+    background-color: #0000009e;
+    box-shadow: 3px 1px 20px 0 #0000007a, 0px 2px 20px 0 black;
+}
+
+.image-modal .modal-nav svg:nth-child(2):hover {
+    background-color: #0000009e;
+    box-shadow: -3px 1px 20px 0 #0000007a, 0px -2px 20px 0 black;
+}

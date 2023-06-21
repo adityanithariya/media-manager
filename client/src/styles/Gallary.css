@@ -1,0 +1,43 @@
+.gallary-main {
+    margin: 20px 0;
+    margin-left: 30px;
+    width: 95vw;
+}
+
+.gallary-main h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+}
+
+.gallary-content {
+    margin: 4vh 2vw;
+    gap: 20px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.content-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    max-width: 300px;
+    overflow: hidden;
+}
+
+.content-box {
+    display: inline-flex;
+    flex-direction: column;
+    width: fit-content;
+    padding: 7px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
+    display: inline-flex;
+    border-radius: 10px;
+    max-width: 300px;
+    cursor: pointer;
+}
+
+.content-title {
+    font-size: 14px;
+}

@@ -1,5 +1,5 @@
 .form-modal {
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     top: 0;
@@ -30,9 +30,21 @@
     margin: 15px 0;
 }
 
+.inputWrapper > div:first-child {
+    height: 100px;
+    width: 180px;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: rgba(var(--primary-color), 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .form-box .inputWrapper:first-child {
     flex-direction: row;
     gap: 10px;
+    justify-content: flex-start;
 }
 
 .headerContent {
@@ -77,4 +89,24 @@
 .inputWrapper input:focus-visible,
 .inputWrapper textarea:focus-visible {
     border-color: rgb(var(--primary-color));
+}
+
+.file-name {
+    width: 240px;
+}
+
+.modal-nav {
+    margin-top: 15px;
+    min-height: 1rem;
+}
+
+.submit {
+    background-color: rgb(var(--primary-color));
+    color: white;
+    border-radius: 7px;
+    font-size: 15px;
+    padding: 7px 14px;
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
 }

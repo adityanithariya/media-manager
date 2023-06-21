@@ -1,0 +1,32 @@
+.navbar {
+    padding: 3px 7px;
+    --width: 42px;
+    --items: 3;
+    width: calc(var(--width) * var(--items));
+    position: fixed;
+    bottom: 20px;
+    left: calc(50vw - ((var(--width) * var(--items)) / 2));
+    background-color: rgba(var(--primary-color), 0.9);
+    border-radius: 50px;
+    gap: 2px;
+}
+
+.navLink {
+    border-radius: 50%;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.034);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff01;
+}
+
+.navLink:hover {
+    border: .5px solid #ffffff40;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navLink.active {
+    background-color: #ffffff40;
+}
