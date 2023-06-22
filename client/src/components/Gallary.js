@@ -35,14 +35,7 @@ const Gallary = () => {
                             className="content-box align-center"
                             key={key}
                             onClick={() => {
-                                let obj = {
-                                    ...files,
-                                };
-                                obj[key] = {
-                                    ...files[key],
-                                    views: files[key].views + 1,
-                                };
-                                dispatch(setFiles(obj));
+                                increaseViews(i);
                                 setIndex(i);
                                 setSelectedFile(files[key]);
                                 open();
