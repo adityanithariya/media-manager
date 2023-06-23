@@ -40,34 +40,3 @@ input, textarea {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
 }
-
-.dot {
-    --size: 5px;
-    --max-size: 7px;
-    cursor: pointer;
-    padding: 5px 3px;
-    position: relative;
-    width: var(--max-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.dot.active::before {
-    background-color: rgb(var(--primary-color));
-    --size: var(--max-size);
-}
-
-.dot::before {
-    content: "";
-    display: block;
-    width: var(--size);
-    height: var(--size);
-    border-radius: 50%;
-    background-color: gray;
-    transition: all 100ms ease;
-}
-
-.dot:hover {
-    --size: var(--max-size);
-}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import "styles/UploadedFiles.css";
 import moment from "moment";
 // import deleteIcon from "assets/delete.svg";
@@ -6,12 +6,11 @@ import moment from "moment";
 // import { setFiles } from "store/uploadSlice";
 
 const UploadCard = ({ file, id }) => {
-    const [progress, setProgress] = useState(0);
     // const dispatch = useDispatch();
     // const { files } = useSelector((state) => state.files);
     useEffect(() => {
-        progressBar.current.style.setProperty("--width", progress);
-    }, [progress]);
+        progressBar.current.style.setProperty("--width", file.progress);
+    }, [file.progress]);
     const progressBar = useRef();
     return (
         <div className="uploadCard align-center">

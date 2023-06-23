@@ -11,6 +11,7 @@ const credentials = require("./middleware/credentials");
 const mongoose = require("mongoose");
 const connectDB = require("./config/dbConn");
 const PORT = process.env.PORT || 3500;
+require("./config/cloudinaryConf");
 
 //connect mongoDB
 connectDB();
@@ -27,22 +28,21 @@ app.use(credentials);
 app.use(cors(corsOptions));
 
 // built-in middleware to handle urlencoded form data
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false, limit: "50mb" }));
 
 // built-in middleware for json
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 
 //middleware for cookies
 app.use(cookieParser());
 
 // routes
 app.use("/register", require("./routes/register"));
-app.use("/auth", require("./routes/auth"));
+app.use("/login", require("./routes/auth"));
 app.use("/refresh", require("./routes/refresh"));
 app.use("/logout", require("./routes/logout"));
 
 app.use(verifyJWT);
-app.use("/user", require("./routes/api/user"));
 app.use("/media", require("./routes/api/media"));
 
 app.all("*", (req, res) => {

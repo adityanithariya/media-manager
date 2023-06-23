@@ -4,6 +4,7 @@ import UploadedFiles from "components/UploadedFiles";
 import Navbar from "components/Navbar";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import Gallary from "components/Gallary";
+import Register from "components/Register";
 
 function App() {
     return (
@@ -11,6 +12,8 @@ function App() {
             <Router>
                 <Navbar />
                 <Routes>
+                    <Route exact path="/register" element={<Register />} />
+                    <Route exact path="/login" element={<Register />} />
                     <Route exact path="/" element={<DragUpload />} />
                     <Route exact path="/uploads" element={<UploadedFiles />} />
                     <Route exact path="/gallary" element={<Gallary />} />

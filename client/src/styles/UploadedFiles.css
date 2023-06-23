@@ -92,7 +92,7 @@
     --padding-btm: 2.2px;
     padding-right: var(--padding-right);
     padding-bottom: var(--padding-btm);
-    width: calc(var(--width) * 6.44px);
+    width: calc(var(--width) * 6.81px);
     height: calc(var(--height) - var(--padding-btm));
     border-radius: inherit;
     background-color: #2080ff;

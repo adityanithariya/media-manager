@@ -100,6 +100,62 @@
     min-height: 1rem;
 }
 
+.modal-nav button {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-nav button:focus-visible {
+    outline: 1px solid black;
+    border-radius: 2px;
+}
+
+.modal-nav .left {
+    margin-right: 5px;
+}
+
+.modal-nav .right {
+    margin-left: 5px;
+}
+
+.dot {
+    --size: 5px;
+    --max-size: 7px;
+    padding: 5px 3px;
+    position: relative;
+    width: var(--max-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dot:not(.active) {
+    cursor: pointer;
+}
+
+.dot.active::before {
+    background-color: rgb(var(--primary-color));
+    --size: var(--max-size);
+}
+
+.dot::before {
+    content: "";
+    display: block;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background-color: gray;
+    transition: all 100ms ease;
+}
+
+.dot:hover,
+.dot:focus-visible {
+    outline: none !important;
+    --size: var(--max-size);
+}
+
 .submit {
     background-color: rgb(var(--primary-color));
     color: white;

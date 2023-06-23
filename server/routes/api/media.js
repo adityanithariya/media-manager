@@ -11,6 +11,6 @@ router
     .get(mediaController.getMedia)
     .post(mediaController.updateMedia);
 
-router.route("/view/:id").get(mediaController.increaseViews);
+router.route("/view").get(mediaController.increaseViews);
 
 module.exports = router;

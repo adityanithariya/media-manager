@@ -1,66 +1,84 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import "styles/Gallary.css";
 import ImageModal, { open } from "./ui/ImageModal";
-import { setFiles } from "store/uploadSlice";
+import axios from "axios";
 
 const Gallary = () => {
-    const { files } = useSelector((state) => state.files);
     const [index, setIndex] = useState(0);
     const [selectedFile, setSelectedFile] = useState({});
-    const dispatch = useDispatch();
+    const [uploadedFiles, setUploadedFiles] = useState([]);
     useEffect(() => {
-        if (Object.keys(files).length)
-            setSelectedFile(files[Object.keys(files)[index]]);
-    }, [index, files]);
-    const increaseViews = (index) => {
-        const key = Object.keys(files)[index];
-        let obj = {
-            ...files,
+        if (uploadedFiles.length) setSelectedFile(uploadedFiles[index]);
+    }, [index, uploadedFiles]);
+
+    useEffect(() => {
+        const fetchFiles = async () => {
+            const { data } = await axios({
+                method: "get",
+                url: process.env.REACT_APP_SERVER_URL + "/media/all",
+                headers: {
+                    Authorization:
+                        "Bearer " + localStorage.getItem("accessToken"),
+                },
+            });
+            setUploadedFiles(data);
         };
-        obj[key] = {
-            ...files[key],
-            views: files[key].views + 1,
-        };
-        console.log(files[key].originalName);
-        dispatch(setFiles(obj));
+        fetchFiles();
+    }, []);
+
+    const increaseViews = async (index) => {
+        setUploadedFiles((prev) => {
+            let newFiles = [...prev];
+            newFiles[index].views++;
+            return newFiles;
+        });
+
+        await axios({
+            method: "post",
+            url: process.env.REACT_APP_SERVER_URL + "/media/view/",
+            data: { id: uploadedFiles[index]._id },
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken"),
+            },
+        });
     };
+
     return (
         <main className="gallary-main">
             <h3>Gallary</h3>
             <div className="gallary-content align-center">
-                {Object.keys(files).map((key, i) => {
-                    return (
-                        <div
-                            className="content-box align-center"
-                            key={key}
-                            onClick={() => {
-                                increaseViews(i);
-                                setIndex(i);
-                                setSelectedFile(files[key]);
-                                open();
-                            }}
-                        >
-                            <div className="content-img">
-                                <img
-                                    className={key}
-                                    src={files[key].content}
-                                    height={170}
-                                    alt={files[key].originalName}
-                                />
+                {uploadedFiles.length &&
+                    uploadedFiles.map((element, i) => {
+                        return (
+                            <div
+                                className="content-box align-center"
+                                key={i}
+                                onClick={() => {
+                                    increaseViews(i);
+                                    setIndex(i);
+                                    setSelectedFile(element);
+                                    open();
+                                }}
+                            >
+                                <div className="content-img">
+                                    <img
+                                        src={element.url}
+                                        height={170}
+                                        alt={element.originalName}
+                                    />
+                                </div>
+                                <div className="content-title">
+                                    {element.name === ""
+                                        ? element.originalName
+                                        : element.name}
+                                </div>
                             </div>
-                            <div className="content-title">
-                                {files[key].name === ""
-                                    ? files[key].originalName
-                                    : files.name}
-                            </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
             </div>
             <ImageModal
                 file={selectedFile}
-                filesLength={Object.keys(files).length}
+                filesLength={uploadedFiles.length}
                 setIndex={setIndex}
                 index={index}
                 increaseViews={increaseViews}

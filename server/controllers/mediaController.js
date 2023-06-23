@@ -1,11 +1,11 @@
 const Media = require("../model/Media");
+const User = require("../model/User");
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
 
 const getAllMedia = async (req, res) => {
-    if (!req?.body?.owner) {
-        return res.sendStatus(400).json({ message: "Owner is required" });
-    }
     const media = await Media.find({
-        owner: req.body.owner,
+        owner: req.user && req.user.id,
     });
     if (!media) return res.sendStatus(204).json({ message: "No media found" });
     res.json(media);
@@ -13,24 +13,22 @@ const getAllMedia = async (req, res) => {
 
 const createMedia = async (req, res) => {
     if (
-        !req?.body?.content ||
         !req?.body?.lastModified ||
         !req?.body?.uploadedAt ||
         !req?.body?.originalName ||
-        !req?.body?.size ||
-        !req?.body?.owner
+        !req?.body?.size
     ) {
         return res.sendStatus(400).json({ message: "Missing Required Fields" });
     }
 
     try {
+        req.body.content = req.body.content.split(",")[1];
         const result = await Media.create({
-            content: req.body.content,
             lastModified: req.body.lastModified,
             uploadedAt: req.body.uploadedAt,
             originalName: req.body.originalName,
             size: req.body.size,
-            owner: req.body.owner,
+            owner: req.user && req.user.id,
         });
         const user = await User.findOne({
             _id: req.user && req.user.id,
@@ -39,15 +37,36 @@ const createMedia = async (req, res) => {
         user.media.push(result);
         result.save();
 
-        res.sendStatus(201).json(result);
+        try {
+            res.sendStatus(201).json(result);
+        } catch (error) {
+            console.log(error);
+        }
+
+        const path = `temp/${result._id}.${
+            req.body.content.split(";")[0].split("/")[1]
+        }`;
+        fs.writeFileSync(path, req.body.content, "base64");
+
+        const upload = await cloudinary.uploader.upload(path, {
+            folder: user.username,
+        });
+        result.url = upload.secure_url;
+        result.save();
+
+        fs.unlinkSync(path);
     } catch (error) {
         console.log(error);
     }
 };
 
 const updateMedia = async (req, res) => {
-    if (!req?.body?.id) {
-        return res.sendStatus(400).json({ message: "Id is required" });
+    try {
+        if (!req?.body?.id) {
+            return res.sendStatus(400).json({ message: "Id is required" });
+        }
+    } catch (error) {
+        console.log(error);
     }
 
     const media = await Media.findOne({
@@ -59,7 +78,6 @@ const updateMedia = async (req, res) => {
             .status(400)
             .json({ message: `No media matches for id: ${req.body.id}` });
     }
-    if (req.body?.content) media.content = req.body.content;
     if (req.body?.lastModified) media.lastModified = req.body.lastModified;
     if (req.body?.uploadedAt) media.uploadedAt = req.body.uploadedAt;
     if (req.body?.originalName) media.originalName = req.body.originalName;
@@ -73,22 +91,27 @@ const updateMedia = async (req, res) => {
 };
 
 const increaseViews = async (req, res) => {
+    console.log(req.body.id);
     if (!req?.body?.id) {
         return res.sendStatus(400).json({ message: "Id is required" });
     }
 
-    const media = await Media.findOne({
-        _id: req.body.id,
-    }).exec();
+    try {
+        const media = await Media.findOne({
+            _id: req.body.id,
+        }).exec();
 
-    if (!media) {
-        return res
-            .status(400)
-            .json({ message: `No media matches for id: ${req.body.id}` });
+        if (!media) {
+            return res
+                .status(400)
+                .json({ message: `No media matches for id: ${req.body.id}` });
+        }
+        media.views = media.views + 1;
+        const result = await media.save();
+        res.json(result);
+    } catch (error) {
+        console.log(error);
     }
-    media.views = media.views + 1;
-    const result = await media.save();
-    res.json(result);
 };
 
 const getMedia = async (req, res) => {

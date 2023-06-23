@@ -21,6 +21,7 @@ const ImageModal = ({ file, filesLength, setIndex, index, increaseViews }) => {
             }
         });
     }, []);
+
     return (
         <dialog ref={dialogRef} className="image-modal">
             <button
@@ -30,7 +31,7 @@ const ImageModal = ({ file, filesLength, setIndex, index, increaseViews }) => {
                 <img src={closeIcon} alt="close" width={20} height={20} />
             </button>
             <div className="modal-image-cover">
-                <img src={file.content} alt={file.originalName} />
+                <img src={file.url} alt={file.originalName} />
                 <div className="modal-views align-center">
                     <img src={views} alt="views" width={17} height={17} />
                     <span>{file.views}</span>

@@ -7,7 +7,9 @@ const getFileObj = (file, res) => {
         size: file.size,
         name: "",
         desc: "",
-        views: 0
+        views: 0,
+        url: "",
+        progress: 0,
     };
 };
 
